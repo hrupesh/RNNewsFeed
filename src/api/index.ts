@@ -7,6 +7,6 @@ export const apiClient = axios.create({
   timeout: 10000,
   headers: {
     // FIXME: Remove key before pushing
-    'X-Api-key': '<Add-your-api-token-here>',
+    'X-Api-key': '94db77fc7f7748d3a7fe27c0e7660f64',
   },
 });

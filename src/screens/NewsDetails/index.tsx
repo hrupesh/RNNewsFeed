@@ -1,8 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import {
   Image,
-  Linking,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -11,6 +10,7 @@ import {
 } from 'react-native';
 import {SharedElement} from 'react-navigation-shared-element';
 import {Back} from '../../../assets';
+import {WebViewScreen} from '../webview';
 import styles from './styles';
 
 interface Route {
@@ -30,6 +30,7 @@ interface Route {
 export const NewsDetails: React.FC<{route: Route}> = ({route}) => {
   const {article, articleIndex} = route?.params;
   const navigation = useNavigation();
+  const [isVisible, setIsVisible] = useState(false);
   const goBack = useCallback(() => {
     navigation.goBack();
   }, [navigation]);
@@ -38,8 +39,8 @@ export const NewsDetails: React.FC<{route: Route}> = ({route}) => {
   const contentColor = useColorScheme() === 'dark' ? '#bbb' : '#444';
   const readMoreBgColor = useColorScheme() === 'dark' ? '#222' : '#ddd';
   const handleURLPress = useCallback(() => {
-    Linking.openURL(article?.url);
-  }, [article]);
+    setIsVisible(true);
+  }, []);
   return (
     <>
       <TouchableOpacity style={styles.crossContainer} onPress={goBack}>
@@ -71,6 +72,13 @@ export const NewsDetails: React.FC<{route: Route}> = ({route}) => {
           </Text>
         </Text>
       </View>
+      <WebViewScreen
+        {...{
+          isVisible,
+          url: article?.url ?? 'https://google.com/',
+          setIsVisible,
+        }}
+      />
     </>
   );
 };
